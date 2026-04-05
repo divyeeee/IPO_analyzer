@@ -8,11 +8,14 @@ from sklearn.impute import SimpleImputer
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
 from sklearn.metrics import classification_report, roc_auc_score, accuracy_score, confusion_matrix
+from pathlib import Path
 import warnings
 warnings.filterwarnings('ignore')
 
+BASE_DIR = Path(__file__).resolve().parent
+
 print("Loading data...")
-df = pd.read_csv('/home/divye/Desktop/IPOA/nse_ipo_merged.csv')
+df = pd.read_csv(BASE_DIR / 'nse_ipo_merged.csv')
 
 # Drop rows where we don't have listing gains
 df = df.dropna(subset=['Listing Day Gain (%)'])

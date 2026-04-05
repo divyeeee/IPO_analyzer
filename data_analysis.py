@@ -17,7 +17,8 @@ import warnings
 warnings.filterwarnings('ignore')
 
 # ── Config ──────────────────────────────────────────────────────────────────
-OUTPUT_DIR = Path('/home/divye/Desktop/IPOA/analysis_output')
+BASE_DIR = Path(__file__).resolve().parent
+OUTPUT_DIR = BASE_DIR / 'analysis_output'
 OUTPUT_DIR.mkdir(exist_ok=True)
 
 plt.rcParams.update({
@@ -43,7 +44,7 @@ PALETTE = ['#00d4ff', '#ff6b6b', '#ffd93d', '#6bcb77', '#c084fc',
 
 # ── Load & Clean ────────────────────────────────────────────────────────────
 print("Loading data...")
-df = pd.read_csv('/home/divye/Desktop/IPOA/nse_ipo_merged.csv')
+df = pd.read_csv(BASE_DIR / 'nse_ipo_merged.csv')
 print(f"Total records: {len(df)}")
 
 # Parse dates

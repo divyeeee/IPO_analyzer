@@ -2,13 +2,15 @@ import pandas as pd
 import json
 import time
 from datetime import datetime, timedelta
+from pathlib import Path
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 
 # ─── Config ─────────────────────────────────────────────────────────────────
-INPUT_CSV = "/home/divye/Desktop/IPOA/nse_ipo_merged.csv"
-OUTPUT_CSV = "/home/divye/Desktop/IPOA/nse_ipo_with_gains.csv"
+BASE_DIR = Path(__file__).resolve().parent
+INPUT_CSV = BASE_DIR / "nse_ipo_merged.csv"
+OUTPUT_CSV = BASE_DIR / "nse_ipo_with_gains.csv"
 REQUEST_DELAY = 1.5
 COOKIE_REFRESH = 40
 NSE_HOME = "https://www.nseindia.com/"
