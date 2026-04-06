@@ -1,6 +1,6 @@
 # 🧠 NSE IPO Analyzer & Predictor: Project Workflow
 
-This document provides a high-level, visual summary of the entire end-to-end data pipeline, the machine learning classification workflow, and the key insights derived from the 10-year NSE IPO dataset.
+This document provides a high-level, visual summary of the entire end-to-end data pipeline, the machine learning classification workflow, and the key insights derived from the NSE IPO dataset (2016–2026).
 
 ---
 
@@ -18,19 +18,18 @@ flowchart TD
 
     %% Nodes
     A1["🌐 NSE Website (Listings)"]:::scraper
-    A2["🌐 Chittorgarh (IPO Details)"]:::scraper
-    A3["🌐 Live Indices (Current Prices)"]:::scraper
+    A2["🌐 Chittorgarh (IPO Performance)"]:::scraper
 
     B1["nse_ipo_scraper.py"]:::process
     B2["chittorgarh_scraper.py"]:::process
-    B3["fetch_listing_gains_browser.py"]:::process
 
-    C1[("Raw NSE Excel")]:::storage
-    C2[("Raw Chittorgarh JSON")]:::storage
-    C3[("Raw Listing Prices CSV")]:::storage
+    C1[("Raw NSE Excel\n(Issue + Bid Details)")]:::storage
+    C2[("Raw Chittorgarh Excel\n(Listing Gains)")]:::storage
 
     D["clean_and_merge.py"]:::process
-    E[("nse_ipo_merged.csv\n(1,200+ rows, Cleaned)")]:::storage
+    E[("nse_ipo_merged.csv\n(1,335 rows, Core Dataset)")]:::storage
+
+    B3["fetch_listing_gains_browser.py\n(Enriches with NSE closing prices)"]:::process
 
     F1["data_analysis.py\n(EDA & Charts)"]:::output
     F2["ipo_classifier.py\n(Scikit-Learn ML)"]:::output
@@ -38,20 +37,22 @@ flowchart TD
     %% Connections
     A1 --> B1
     A2 --> B2
-    A3 --> B3
 
     B1 --> C1
     B2 --> C2
-    B3 --> C3
 
     C1 --> D
-    C2 --> D
-    C3 --> D
-
     D --> E
+
+    E --> B3
+    B3 -->|"Writes listing gains back"| E
+
     E --> F1
     E --> F2
 ```
+
+> [!NOTE]
+> `chittorgarh_scraper.py` produces a standalone reference Excel file (`ipo_listing_prices_2016_2026.xlsx`) for cross-validation. It is not directly merged into the main pipeline — the primary listing gain data comes from `fetch_listing_gains_browser.py` which enriches `nse_ipo_merged.csv` with NSE closing prices.
 
 ---
 
@@ -68,17 +69,16 @@ flowchart LR
     classDef pred fill:#6bcb77,stroke:#fff,stroke-width:2px,color:#000
     
     %% Inputs
-    subgraph Features ["Pre-Listing Features"]
+    subgraph Features ["Pre-Listing Features (All Numeric)"]
         I1["Issue Price (₹)"]:::input
-        I2["IPO Year / Seasonality"]:::input
-        I3["Issue Size / Liquidity"]:::input
+        I2["IPO Year / Month"]:::input
+        I3["Issue Size (Numeric)"]:::input
         I4["QIB / NII / RII Subscriptions"]:::input
         I5["SME vs Mainboard Flag"]:::input
     end
 
     %% Preprocessing
-    P1["StandardScaler (Numeric)"]:::prep
-    P2["OneHotEncoder (Categorical)"]:::prep
+    P1["Median Imputer → StandardScaler"]:::prep
     
     %% Model
     M1{"Random Forest Classifier\n(n_estimators=200, depth=8)"}:::model
@@ -89,9 +89,7 @@ flowchart LR
 
     %% Flow
     Features --> P1
-    Features --> P2
     P1 --> M1
-    P2 --> M1
     
     M1 -->|Probability > 50%| O1
     M1 -->|Probability <= 50%| O2
@@ -119,7 +117,7 @@ flowchart LR
 
 ---
 
-## 🏆 4. Model Evaluation results
+## 🏆 4. Model Evaluation Results
 
 The dataset was split chronologically: trained on the first 80% (older IPOs) and tested on the most recent 20%.
 
@@ -130,7 +128,7 @@ The dataset was split chronologically: trained on the first 80% (older IPOs) and
 | **Gradient Boosting** | 77.8% | 0.761 | Struggled with class imbalance and noise compared to the Random Forest ensemble. |
 
 ### The 4 Most Predictive Features:
-1. **Issue Price (17.2%)**
-2. **Launch Year (13.1%)**
-3. **Issue Size (9.5.%)**
-4. **Retail Subscription (9.4%)**
+1. **Issue Price (~17%)**
+2. **IPO Year (~13%)**
+3. **Issue Size (~9.5%)**
+4. **Retail Subscription (~9%)**
