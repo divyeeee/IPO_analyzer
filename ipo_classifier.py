@@ -128,3 +128,18 @@ for name, model in models.items():
         print(f"Top 7 Features ({name}):")
         for i in indices:
             print(f"  {numeric_features[i]}: {importances[i]:.4f}")
+
+    if name == 'Random Forest':
+        print("\nExporting Random Forest model to ONNX...")
+        try:
+            from skl2onnx import to_onnx
+            # Cast a sample dataframe to float32 to define the ONNX input schema correctly
+            onx = to_onnx(clf, X_train[:1].astype(np.float32))
+            with open("rf_ipo_classifier.onnx", "wb") as f:
+                f.write(onx.SerializeToString())
+            print("Model saved successfully as rf_ipo_classifier.onnx")
+        except ImportError:
+            print("skl2onnx not installed, skipping ONNX export.")
+        except Exception as e:
+            print(f"Failed to export ONNX: {e}")
+
