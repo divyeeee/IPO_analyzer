@@ -2,10 +2,13 @@ import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 import time
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent
 
 all_data = []
 
-years = range(2015, 2026)  # 2015 to 2025
+years = range(2016, 2027)  # 2016 to 2026
 
 HEADERS = {
     "User-Agent": (
@@ -57,7 +60,7 @@ for year in years:
 # Save to Excel
 if all_data:
     df = pd.DataFrame(all_data, columns=COLUMNS)
-    output_file = "ipo_listing_prices_2015_2025.xlsx"
+    output_file = BASE_DIR / "ipo_listing_prices_2016_2026.xlsx"
     df.to_excel(output_file, index=False)
     print(f"\nDone! Saved {len(df)} records to {output_file}")
 else:

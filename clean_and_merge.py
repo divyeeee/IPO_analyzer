@@ -12,12 +12,15 @@ Produces:
 import pandas as pd
 import re
 import sys
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent
 
 # ─── Read data ───────────────────────────────────────────────────────────────
 
 print("📖  Reading Excel files...")
-df_issue = pd.read_excel("nse_ipo_issue_details.xlsx", engine="openpyxl")
-df_bid = pd.read_excel("nse_ipo_bid_details.xlsx", engine="openpyxl")
+df_issue = pd.read_excel(BASE_DIR / "nse_ipo_issue_details.xlsx", engine="openpyxl")
+df_bid = pd.read_excel(BASE_DIR / "nse_ipo_bid_details.xlsx", engine="openpyxl")
 
 print(f"  Issue details: {len(df_issue)} rows, {len(df_issue.columns)} cols")
 print(f"  Bid details:   {len(df_bid)} rows, {len(df_bid.columns)} cols")
@@ -228,7 +231,7 @@ if "IPO Start Date" in df_final.columns:
 
 # ─── Save ────────────────────────────────────────────────────────────────────
 
-output_file = "nse_ipo_merged.csv"
+output_file = BASE_DIR / "nse_ipo_merged.csv"
 df_final.to_csv(output_file, index=False)
 
 print(f"\n✅  Saved {len(df_final)} rows × {len(df_final.columns)} cols to {output_file}")
