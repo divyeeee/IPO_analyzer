@@ -10,7 +10,7 @@ from selenium.webdriver.common.by import By
 # ─── Config ─────────────────────────────────────────────────────────────────
 BASE_DIR = Path(__file__).resolve().parent
 INPUT_CSV = BASE_DIR / "nse_ipo_merged.csv"
-OUTPUT_CSV = BASE_DIR / "nse_ipo_with_gains.csv"
+OUTPUT_CSV = BASE_DIR / "nse_ipo_merged.csv"
 REQUEST_DELAY = 1.5
 COOKIE_REFRESH = 40
 NSE_HOME = "https://www.nseindia.com/"
@@ -110,7 +110,7 @@ def main():
                     body = driver.find_element(By.TAG_NAME, "body").text
                     try:
                         records = json.loads(body).get("data", [])
-                    except:
+                    except Exception:
                         pass
                 
                 if records:
