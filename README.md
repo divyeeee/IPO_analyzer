@@ -18,7 +18,8 @@ This repository captures a fully automated pipeline for IPO investment analysis:
 - `clean_and_merge.py` — Cleans and joins NSE issue + bid Excel files into the core `nse_ipo_merged.csv`.
 - `fetch_listing_gains_browser.py` — Enriches `nse_ipo_merged.csv` with real listing-day and first-week closing prices from NSE's historical API.
 - `data_analysis.py` — Generates **16 high-quality analysis charts** and visual summaries into `analysis_output/`.
-- `ipo_classifier.py` — Trains ML models to predict listing-day profitability using pre-listing features.
+- `ipo_classifier.py` — Trains ML models to predict listing-day profitability using pre-listing features and exports the best model to an ONNX file.
+- `demo_onnx.py` — Sample demo script that loads the ONNX model and predicts listing performance for recent IPOs.
 - `requirements.txt` — Pinned dependency list for environment replication.
 
 ---
