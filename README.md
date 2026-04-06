@@ -68,3 +68,12 @@ python3 data_analysis.py
 python3 ipo_classifier.py
 ```
 *(This will trigger processing of the dataset, target split creation, and output precision/recall models alongside ROC-AUC scores).*
+
+
+## Project by: 
+1. 23DCS004 Ankush Thakur.
+2. 23DCS006 Arnav Sharma.
+3.  23DCS007 Divye Vaibhav Mishra.
+4. 23DCS014 Kanishak.
+5. 23DCS021 Raghav Sharma.
+6. 23DCS024 Sarthak Katiyar.
