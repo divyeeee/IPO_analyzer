@@ -68,4 +68,13 @@ python data_analysis.py
 ```bash
 python ipo_classifier.py
 ```
-*(This will process the dataset, perform a chronological 80/20 train-test split, and output precision/recall metrics alongside ROC-AUC scores for each model.)*
+*(This will trigger processing of the dataset, target split creation, and output precision/recall models alongside ROC-AUC scores).*
+
+
+## Project by: 
+1. 23DCS004 Ankush Thakur.
+2. 23DCS006 Arnav Sharma.
+3.  23DCS007 Divye Vaibhav Mishra.
+4. 23DCS014 Kanishak.
+5. 23DCS021 Raghav Sharma.
+6. 23DCS024 Sarthak Katiyar.
