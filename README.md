@@ -73,7 +73,7 @@ python ipo_classifier.py
 
 
 ## Project by: 
-1. 23DCS004 Ankush Thakur.
+1. 23DCS004 Ankush
 2. 23DCS006 Arnav Sharma.
 3.  23DCS007 Divye Vaibhav Mishra.
 4. 23DCS014 Kanishak.
